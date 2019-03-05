@@ -4,7 +4,7 @@ jobs:
   ################################################################################
 - job: GenerateMatrices
   pool: # linuxAmd64Pool
-    name: DotNet-Build
+    name: DotNetCore-Infra
     demands: agent.os -equals linux
   steps:
   - template: ../steps/init-docker-linux.yml
@@ -23,7 +23,7 @@ jobs:
   parameters:
     name: Build_Linux_amd64
     pool: # linuxAmd64Pool
-      name: DotNet-Build
+      name: DotNetCore-Infra
       demands:
       - agent.os -equals linux
     matrix: dependencies.GenerateMatrices.outputs['buildMatrix.buildMatrixLinuxAmd64']
@@ -36,7 +36,7 @@ jobs:
       demands:
       - agent.os -equals linux
       - RemoteDockerServerOS -equals linux
-      - RemoteDockerServerArch -equals arm64v8
+      - RemoteDockerServerArch -equals aarch64
     matrix: dependencies.GenerateMatrices.outputs['buildMatrix.buildMatrixLinuxArm64v8']
     useRemoteDockerServer: true
     dockerClientOS: linux
@@ -48,7 +48,7 @@ jobs:
       demands:
       - agent.os -equals linux
       - RemoteDockerServerOS -equals linux
-      - RemoteDockerServerArch -equals arm32v7
+      - RemoteDockerServerArch -equals aarch64
     matrix: dependencies.GenerateMatrices.outputs['buildMatrix.buildMatrixLinuxArm32v7']
     dockerClientOS: linux
     useRemoteDockerServer: true
@@ -113,7 +113,7 @@ jobs:
     name: Test_Linux_amd64
     buildDependencies: Build_Linux_amd64
     pool: # linuxAmd64Pool
-      name: DotNet-Build
+      name: DotNetCore-Infra
       demands:
       - agent.os -equals linux
     matrix: dependencies.GenerateMatrices.outputs['testMatrix.testMatrixLinuxAmd64']
@@ -126,7 +126,7 @@ jobs:
       demands:
       - agent.os -equals linux
       - RemoteDockerServerOS -equals linux
-      - RemoteDockerServerArch -equals arm64v8
+      - RemoteDockerServerArch -equals aarch64
     matrix: dependencies.GenerateMatrices.outputs['testMatrix.testMatrixLinuxArm64v8']
     useRemoteDockerServer: true
 - template: test-images-linux-client.yml
@@ -138,7 +138,7 @@ jobs:
       demands:
       - agent.os -equals linux
       - RemoteDockerServerOS -equals linux
-      - RemoteDockerServerArch -equals arm32v7
+      - RemoteDockerServerArch -equals aarch64
     matrix: dependencies.GenerateMatrices.outputs['testMatrix.testMatrixLinuxArm32v7']
     useRemoteDockerServer: true
 - template: test-images-windows-client.yml
@@ -196,7 +196,7 @@ jobs:
 - template: copy-images.yml
   parameters:
     pool: # linuxAmd64Pool
-      name: DotNet-Build
+      name: DoDotNetCore-Infra
       demands:
       - agent.os -equals linux
     matrix: dependencies.GenerateMatrices.outputs['publishMatrix.publishMatrix']
@@ -204,6 +204,6 @@ jobs:
 - template: publish-finalize.yml
   parameters:
     pool: # linuxAmd64Pool
-      name: DotNet-Build
+      name: DotNetCore-Infra
       demands:
       - agent.os -equals linux
