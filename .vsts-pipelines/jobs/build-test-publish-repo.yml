@@ -196,7 +196,7 @@ jobs:
 - template: copy-images.yml
   parameters:
     pool: # linuxAmd64Pool
-      name: DoDotNetCore-Infra
+      name: DotNetCore-Infra
       demands:
       - agent.os -equals linux
     matrix: dependencies.GenerateMatrices.outputs['publishMatrix.publishMatrix']
