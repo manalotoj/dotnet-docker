@@ -39,6 +39,7 @@ jobs:
       -v $(repoVolume):/repo
       -w /repo $(dockerArmRunArgs)
       -e RUNNING_TESTS_IN_CONTAINER=true 
+      -e COREHOST_TRACE=1 
       --name $(testRunner.container)
       $(testrunner.image)
     displayName: Start Test Runner Container
